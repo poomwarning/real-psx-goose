@@ -1,71 +1,81 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
+[RequireComponent(typeof(Camera))]
 [ExecuteInEditMode]
 public class PSXEffects : MonoBehaviour {
 
-	public enum DitherType {
-		x2,
-		x3,
-		x4,
-		x8
-	};
+	public System.Version version = new System.Version("1.12.2");
+	public string cfuStatus = "PSXEffects";
+	public bool[] sections = { true, true, true, false };
 
-	public int resolutionFactor = 2;
-	public RawImage imgTarget;
-	public int limitFramerate = 30;
+	public Vector2Int customRes = new Vector2Int(620, 480);
+	public int resolutionFactor = 1;
+	public int limitFramerate = -1;
 	public bool affineMapping = true;
 	public float polygonalDrawDistance = 0f;
 	public int vertexInaccuracy = 30;
-	public int polygonInaccuracy = 10;
-	public int colorDepth = 32;
+	public int polygonInaccuracy = 2;
+	public int colorDepth = 5;
 	public bool scanlines = false;
 	public int scanlineIntensity = 5;
 	public Texture2D ditherTexture;
 	public bool dithering = true;
 	public float ditherThreshold = 1;
-	public int ditherIntensity = 5;
+	public int ditherIntensity = 35;
 	public int maxDarkness = 20;
 	public int subtractFade = 0;
-	public bool skyboxLighting = false;
 	public float favorRed = 1.0f;
 	public bool worldSpaceSnapping = false;
 	public bool postProcessing = true;
 	public bool verticalScanlines = true;
 	public float shadowIntensity = 0.5f;
+	public bool downscale = false;
+	public bool snapCamera = false;
+	public float camInaccuracy = 0.05f;
+	public bool camSnapping = false;
+	public int shadowType = 0;
 
 	private Camera cam;
 	private Material colorDepthMat;
-	private int prevResFactor;
-	private Vector2 screenRes;
+	private RenderTexture rt;
 
-	void Awake() {
+	private void Awake() {
 		if (Application.isPlaying) {
 			QualitySettings.vSyncCount = 0;
 		}
 
-		if (imgTarget != null && postProcessing) {
-			CreateNewRendTexture();
-		}
+		QualitySettings.antiAliasing = 0;
+		cfuStatus = "PSXEffects v" + version.ToString();
 
-		prevResFactor = resolutionFactor;
-		screenRes = new Vector2(Screen.width, Screen.height);
+		CheckForUpdates();
 	}
 
-	void Update() {
+	private void Update() {
+		if (!downscale) {
+			customRes = new Vector2Int(Screen.width / resolutionFactor, Screen.height / resolutionFactor);
+		}
+
+		// Set mesh shader variables
 		Shader.SetGlobalFloat("_AffineMapping", affineMapping ? 1.0f : 0.0f);
 		Shader.SetGlobalFloat("_DrawDistance", polygonalDrawDistance);
-		Shader.SetGlobalInt("_VertexSnappingDetail", vertexInaccuracy / resolutionFactor);
+		Shader.SetGlobalInt("_VertexSnappingDetail", vertexInaccuracy / 2);
 		Shader.SetGlobalInt("_Offset", polygonInaccuracy);
 		Shader.SetGlobalFloat("_DarkMax", (float)maxDarkness / 100);
 		Shader.SetGlobalFloat("_SubtractFade", (float)subtractFade / 100);
-		Shader.SetGlobalFloat("_SkyboxLighting", skyboxLighting ? 1.0f : 0.0f);
 		Shader.SetGlobalFloat("_WorldSpace", worldSpaceSnapping ? 1.0f : 0.0f);
+		Shader.SetGlobalFloat("_CamPos", camSnapping ? 1.0f : 0.0f);
+		Shader.SetGlobalFloat("_ShadowType", shadowType);
+
 
 		if (postProcessing) {
-			imgTarget.gameObject.SetActive(true);
+			// Handles all post processing variables
 			if (colorDepthMat == null) {
 				colorDepthMat = new Material(Shader.Find("Hidden/PS1ColorDepth"));
 			} else {
@@ -76,41 +86,108 @@ public class PSXEffects : MonoBehaviour {
 				colorDepthMat.SetFloat("_Dithering", dithering ? 1 : 0);
 				colorDepthMat.SetFloat("_DitherThreshold", ditherThreshold);
 				colorDepthMat.SetFloat("_DitherIntensity", (float)ditherIntensity / 100);
+				colorDepthMat.SetFloat("_ResX", customRes.x);
+				colorDepthMat.SetFloat("_ResY", customRes.y);
 				colorDepthMat.SetFloat("_FavorRed", favorRed);
 				colorDepthMat.SetFloat("_SLDirection", verticalScanlines ? 1 : 0);
 			}
+		}
 
-			if (prevResFactor != resolutionFactor) {
-				prevResFactor = resolutionFactor;
-				CreateNewRendTexture();
+		// Set target framerate
+		if (limitFramerate > 0) {
+			Application.targetFrameRate = limitFramerate;
+		} else {
+			Application.targetFrameRate = -1;
+		}
+	}
+
+	void LateUpdate() {
+		if (snapCamera && Application.isPlaying) {
+			// Handles the camera position snapping
+			if (transform.parent == null || !transform.parent.name.Contains("CameraRealPosition")) {
+				GameObject newParent = new GameObject("CameraRealPosition");
+				newParent.transform.position = transform.position;
+				if (transform.parent)
+					newParent.transform.SetParent(transform.parent);
+				transform.SetParent(newParent.transform);
 			}
 
-			if (screenRes.x != Screen.width || screenRes.y != Screen.height) {
-				screenRes = new Vector2(Screen.width, Screen.height);
-				CreateNewRendTexture();
+			Vector3 snapPos = transform.parent.position;
+			snapPos /= camInaccuracy;
+			snapPos = new Vector3(Mathf.Round(snapPos.x), Mathf.Round(snapPos.y), Mathf.Round(snapPos.z));
+			snapPos *= camInaccuracy;
+			transform.position = snapPos;
+		} else if(transform.parent != null && transform.parent.name.Contains("CameraRealPosition")) {
+			Destroy(transform.parent.gameObject);
+		}
+	}
+
+	public void SnapCamera() {
+		Vector3 snapPos = transform.position;
+		snapPos /= camInaccuracy;
+		snapPos = new Vector3(Mathf.Round(snapPos.x), Mathf.Round(snapPos.y), Mathf.Round(snapPos.z));
+		snapPos *= camInaccuracy;
+		transform.position = snapPos;
+	}
+
+	// Draw a transparent red circle around the camera to show its
+	// real position
+	private void OnDrawGizmos() {
+		if (snapCamera) {
+			Gizmos.color = new Color(1, 0, 0, 0.5f);
+			if(transform.parent != null)
+				Gizmos.DrawSphere(transform.parent.position, 0.5f);
+		}
+	}
+
+	private void OnRenderImage(RenderTexture src, RenderTexture dst) {
+		if (postProcessing) {
+			if (customRes.x > 0 && customRes.y > 0) {
+				// Renders scene to downscaled render texture using
+				// the post processing shader
+				if (src != null)
+					src.filterMode = FilterMode.Point;
+				RenderTexture rt = RenderTexture.GetTemporary(customRes.x, customRes.y);
+				rt.filterMode = FilterMode.Point;
+				Graphics.Blit(src, rt);
+				Graphics.Blit(rt, dst, colorDepthMat);
+				RenderTexture.ReleaseTemporary(rt);
+			} else {
+				Debug.LogError("Downscale resolution width and height must be greater than zero.");
 			}
 		} else {
-			imgTarget.gameObject.SetActive(false);
+			// Renders scene to downscaled render texture
+			if (src != null)
+				src.filterMode = FilterMode.Point;
+			RenderTexture rt = RenderTexture.GetTemporary(customRes.x, customRes.y);
+			rt.filterMode = FilterMode.Point;
+			Graphics.Blit(src, rt);
+			Graphics.Blit(rt, dst);
+			RenderTexture.ReleaseTemporary(rt);
 		}
-
-		Application.targetFrameRate = limitFramerate;
 	}
 
-	void OnRenderImage(RenderTexture source, RenderTexture destination) {
-		if (postProcessing) {
-			Graphics.Blit(source, destination, colorDepthMat);
-		}
+	public void CheckForUpdates() {
+		StartCoroutine("CheckForUpdate");
 	}
 
-	void CreateNewRendTexture() {
-		int resolution = Screen.width / resolutionFactor;
+	IEnumerator CheckForUpdate() {
+		UnityWebRequest www = UnityWebRequest.Get("https://tripleaxis.net/test/psfxversion/");
+		yield return www.SendWebRequest();
 
-		cam = GetComponent<Camera>();
-		if (resolution > 0) {
-			cam.targetTexture = new RenderTexture(resolution, (int)(resolution * ((float)Screen.height / (float)Screen.width)), 32, RenderTextureFormat.RGB111110Float);
-			cam.targetTexture.filterMode = FilterMode.Point;
+		if (www.isNetworkError || www.isHttpError) {
+			Debug.Log(www.error);
+		} else {
+			System.Version onlineVer = new System.Version(www.downloadHandler.text);
+			int comparison = onlineVer.CompareTo(version);
 
-			imgTarget.texture = cam.targetTexture;
+			if (comparison < 0) {
+				cfuStatus = "PSXEffects v" + version.ToString() + " - version ahead?!";
+			} else if (comparison == 0) {
+				cfuStatus = "PSXEffects v" + version.ToString() + " - up to date.";
+			} else {
+				cfuStatus = "PSXEffects v" + version.ToString() + " - update available (click to update).";
+			}
 		}
 	}
 }
