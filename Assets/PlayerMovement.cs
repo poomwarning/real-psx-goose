@@ -27,11 +27,7 @@ public class PlayerMovement : MonoBehaviour {
     private float threshold = 0.01f;
     public float maxSlopeAngle = 35f;
 
-    //Crouch & Slide
-    private Vector3 crouchScale = new Vector3(1, 0.5f, 1);
-    private Vector3 playerScale;
-    public float slideForce = 400;
-    public float slideCounterMovement = 0.2f;
+    
 
     //Jumping
     private bool readyToJump = true;
@@ -42,16 +38,14 @@ public class PlayerMovement : MonoBehaviour {
     float x, y;
     bool jumping, sprinting, crouching;
     
-    //Sliding
-    private Vector3 normalVector = Vector3.up;
-    private Vector3 wallNormalVector;
+   
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
     }
     
     void Start() {
-        playerScale =  transform.localScale;
+       
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -73,29 +67,13 @@ public class PlayerMovement : MonoBehaviour {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetButton("Jump");
-        crouching = Input.GetKey(KeyCode.LeftControl);
       
-        //Crouching
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-            StartCrouch();
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-            StopCrouch();
+      
+      
     }
 
-    private void StartCrouch() {
-        transform.localScale = crouchScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
-        if (rb.velocity.magnitude > 0.5f) {
-            if (grounded) {
-                rb.AddForce(orientation.transform.forward * slideForce);
-            }
-        }
-    }
-
-    private void StopCrouch() {
-        transform.localScale = playerScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-    }
+  
+  
 
     private void Movement() {
         //Extra gravity
@@ -149,7 +127,7 @@ public class PlayerMovement : MonoBehaviour {
 
             //Add jump forces
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
-            rb.AddForce(normalVector * jumpForce * 0.5f);
+           
             
             //If jumping while falling, reset y velocity.
             Vector3 vel = rb.velocity;
@@ -188,10 +166,7 @@ public class PlayerMovement : MonoBehaviour {
         if (!grounded || jumping) return;
 
         //Slow down sliding
-        if (crouching) {
-            rb.AddForce(moveSpeed * Time.deltaTime * -rb.velocity.normalized * slideCounterMovement);
-            return;
-        }
+       
 
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0)) {
@@ -250,7 +225,7 @@ public class PlayerMovement : MonoBehaviour {
             if (IsFloor(normal)) {
                 grounded = true;
                 cancellingGrounded = false;
-                normalVector = normal;
+              
                 CancelInvoke(nameof(StopGrounded));
             }
         }
