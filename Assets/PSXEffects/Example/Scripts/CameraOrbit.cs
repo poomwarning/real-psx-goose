@@ -20,6 +20,6 @@ public class CameraOrbit : MonoBehaviour {
 		transform.LookAt(origin);
 		if(scrollControl)
 			transform.Translate(Vector3.forward * Input.GetAxis("Mouse ScrollWheel") * scrollSpeed);
-		transform.RotateAround(origin.position, origin.transform.up, Time.deltaTime * speed);
+		transform.RotateAround(origin.position, Vector3.up, Time.deltaTime * speed);
 	}
 }

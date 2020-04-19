@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class destroycar : MonoBehaviour
 {
-   public GameObject oof;
+   public GameObject car;
     
 
    private void ontriggerEnter(Collider other) 
    {
-        
-             Destroy(oof);
-         
+         if(other.tag=="car")
+         {
+             Destroy(car);
+         }
     }
 
 }

@@ -39,7 +39,6 @@ public class PropertyModifier : MonoBehaviour {
 		effects.limitFramerate = int.Parse(input.text);
 	}
 	public void SetDD(InputField input) {
-		Debug.Log("Set DD");
 		effects.polygonalDrawDistance = int.Parse(input.text);
 	}
 	public void SetVI(InputField input) {
@@ -64,5 +63,9 @@ public class PropertyModifier : MonoBehaviour {
 	}
 	public void SetDR(InputField input) {
 		effects.favorRed = float.Parse(input.text);
+	}
+
+	public void SetSL(Toggle input) {
+		effects.skyboxLighting = input.isOn;
 	}
 }
