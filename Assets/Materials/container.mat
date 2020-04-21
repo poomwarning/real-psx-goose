@@ -7,14 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dev_128_or_000x
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: container
+  m_Shader: {fileID: 4800000, guid: 94cb0d6305cd4a743b1d2ec684e277de, type: 3}
   m_ShaderKeywords: _DIFFMODEL_VERTEX _DRAWDIST_ON _SPECMODEL_GOURAUD
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -52,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9a5a9c5596d852140857413a24bb4789, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f9fbc44a1e3e164987c34619f2ef518, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -80,13 +81,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BlendOp: 0
+    - _BlendOp: 1
     - _BumpScale: 1
     - _Cul: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DiffModel: 0
-    - _DrawDist: 0
+    - _DrawDist: 1
     - _DstBlend: 0
     - _EmissionAmt: 0
     - _GlossMapScale: 1
@@ -110,4 +111,4 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
