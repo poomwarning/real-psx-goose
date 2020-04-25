@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour {
         float maxSpeed = this.maxSpeed;
         
         //If sliding down a ramp, add force down so player stays grounded and also builds speed
-       
+        
         
         //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
         if (x > 0 && xMag > maxSpeed) x = 0;
@@ -110,7 +110,6 @@ public class PlayerMovement : MonoBehaviour {
             multiplierV = 0.5f;
         }
         
-        // Movement while sliding
      
 
         //Apply forces to move player
