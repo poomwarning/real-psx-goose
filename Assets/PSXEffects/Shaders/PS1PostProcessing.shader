@@ -1,4 +1,4 @@
-﻿Shader "Hidden/PS1ColorDepth"
+Shader "Hidden/PS1ColorDepth"
 {
 	Properties
 	{
@@ -12,6 +12,8 @@
 
 		Pass
 		{
+			
+
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -40,6 +42,7 @@
 			
 			sampler2D _MainTex;
 			sampler2D _DitherTex;
+			float4 _DitherTex_TexelSize;
 			float _ColorDepth;
 			float _Scanlines;
 			float _ScanlineIntensity;
@@ -49,13 +52,20 @@
 			float _SubtractFade;
 			float _FavorRed;
 			float _SLDirection;
+			float _ResX;
+			float _ResY;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
+				float aspect = _ResY / _ResX;
 				fixed4 col = tex2D(_MainTex, i.uv);
-				col.rgb = floor(col.rgb * _ColorDepth) / _ColorDepth;
+				#if !UNITY_COLORSPACE_GAMMA
+				col.rgb = LinearToGammaSpace(col.rgb);
+				#endif
+				int colors = pow(2, _ColorDepth);
+				
 				//Scanlines
-				float sl = floor(i.uv.x*_ScreenParams.x % 2) * _SLDirection + floor(i.uv.y*_ScreenParams.y % 2) * (1 - _SLDirection);
+				float sl = floor(i.uv.x*_ResX % 2) * _SLDirection + floor(i.uv.y*_ResY % 2) * (1 - _SLDirection);
 				col.rgb += _Scanlines * sl * _ScanlineIntensity;
 				
 				#ifdef UNITY_COLORSPACE_GAMMA
@@ -63,12 +73,27 @@
 				#else
 					half luma = LinearRgbToLuminance(col.rgb);
 				#endif
-				half dither = tex2D(_DitherTex, i.uv*(_ScreenParams.x/6)).a;
 
-				col.rgb += (luma < dither / _DitherThreshold ? _DitherIntensity : 0) * _Dithering;
+				//Calculate dithering values based on _DitherTex 
+				half dither = tex2D(_DitherTex, float2(i.uv.x, i.uv.y * aspect) * _DitherTex_TexelSize.x * _ResX).a;
+				dither = (dither - 0.5) * 2 / _DitherThreshold;
+
+				//Manipulate colors/saturate
 				col.rgb -= (3 - col.rgb) * _SubtractFade;
-				col.rgb -= _FavorRed * ((1 - col.rgb) * 0.25);
-				col.r += _FavorRed * ((0.5 - col.rgb) * 0.1);
+				#if UNITY_COLORSPACE_GAMMA
+					col.rgb -= _FavorRed * ((1 - col.rgb) * 0.25);
+					col.r += _FavorRed * ((0.5 - col.rgb) * 0.1);
+				#else
+					col.rgb -= GammaToLinearSpace(_FavorRed * ((1 - col.rgb) * 0.25));
+					col.r += GammaToLinearSpace(_FavorRed * ((0.5 - col.rgb) * 0.1));
+				#endif
+
+				col.rgb *= 1.0f + (luma < dither ? (1 - luma) * (1 - (_ColorDepth / 24)) * _DitherIntensity : 0) * _Dithering;
+				col.rgb = floor(col.rgb * colors) / colors;
+
+				#if !UNITY_COLORSPACE_GAMMA
+					col.rgb = GammaToLinearSpace(col.rgb);
+				#endif
 
 				return col;
 			}
