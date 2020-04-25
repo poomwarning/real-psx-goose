@@ -84,13 +84,6 @@ camera gets close.  This effect is more noticable if the model's polygons
 are bigger in size.  To tone down the stretching, subdivide your polygons
 that are affected by extreme affine mapping stretching.
 
---Black screen at build--
-If you build your game and just see a black screen, this is because Unity
-doesn't include the PSXEffects shaders by default.  To fix this, go to
-Edit>Project Settings>Graphics and under Built-in Shader Settings, expand
-Always Included Shaders and add "Hidden/PS1ColorDepth" and
-"PSXEffects/PS1Shader" to the array.
-
 --ProBuilder black objects--
 If using ProBuilder and the object turns black when applying a PSXEffects
 material, uncheck "Lightmap Static" under the object's Mesh Renderer.
