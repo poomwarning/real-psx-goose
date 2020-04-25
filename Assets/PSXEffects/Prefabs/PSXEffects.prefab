@@ -104,7 +104,7 @@ MonoBehaviour:
   resolutionFactor: 2
   limitFramerate: 60
   affineMapping: 1
-  polygonalDrawDistance: 0
+  polygonalDrawDistance: 16
   vertexInaccuracy: 40
   polygonInaccuracy: 2
   colorDepth: 32
