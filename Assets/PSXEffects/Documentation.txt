@@ -26,7 +26,8 @@ PSXEffects.cs properties:
 -Resolution - The fixed downscale resolution (default: 620, 480)
 -Resolution Factor - Determines how pixelated the main display is (default: 2)
 rendered (you can find a pre-made canvas in the included Prefabs folder)
--Limit Framerate - Determines the maximum frames per second, set to -1 for default (default: -1)
+-Target Framerate - Sets the project's max framerate to this number (the same as setting Application.targetFrameRate) (default: -1)
+-Frame Skip - Determines the frame gap between PSXEffects render calls to the camera (default: 0)
 -Enable Camera Position Inaccuracy - Toggles camera position snapping (default: false)
 -Camera Inaccuracy - How many units the camera should snap (default: 0.05)
 -Affine Texture Mapping - Simulates the PSX's distorted texture look (default: true)
@@ -87,3 +88,9 @@ that are affected by extreme affine mapping stretching.
 --ProBuilder black objects--
 If using ProBuilder and the object turns black when applying a PSXEffects
 material, uncheck "Lightmap Static" under the object's Mesh Renderer.
+
+--Consistent frame skip--
+By default, PSXEffects' Frame Skip option skips x amount of frames between
+RenderTexture renders.  If your screen's refresh rate is different from
+someone else's, the FPS they'll be seeing is also different.  To combat this,
+set the Target Framerate option to a normal refresh rate (like 60 or so).
