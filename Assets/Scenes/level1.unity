@@ -50839,7 +50839,7 @@ MonoBehaviour:
   sections: 01010100
   customRes: {x: 573, y: 302}
   resolutionFactor: 2
-  limitFramerate: 0
+  limitFramerate: 30
   skipFrames: 0
   affineMapping: 1
   polygonalDrawDistance: 32
