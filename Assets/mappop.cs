@@ -5,6 +5,7 @@ using UnityEngine;
 public class mappop : MonoBehaviour
 {
     public GameObject flashlight ;
+    public AudioSource sound ;
     int setflash = 1;
 
     // Start is called before the first frame update
@@ -21,7 +22,7 @@ public class mappop : MonoBehaviour
       
         if(Input.GetKeyDown(KeyCode.M)&&setflash==1)
         {
-            
+            sound.Play();
             flashlight.SetActive(true);
             setflash--;
             

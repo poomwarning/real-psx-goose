@@ -17,10 +17,7 @@ public class toggleflashlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(setflash==1)
-        {
-            Debug.Log("1");
-        }
+       
       
         if(Input.GetKeyDown(KeyCode.F)&&setflash==1)
         {

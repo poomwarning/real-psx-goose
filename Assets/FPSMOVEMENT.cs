@@ -47,7 +47,7 @@ public class FPSMOVEMENT : MonoBehaviour
          if(Input.GetButton("sprint") && (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.D)))
         {
             speed = 6f;
-            GetComponent<AudioSource>().pitch = Random.Range(2.0f,3.0f);
+            GetComponent<AudioSource>().pitch = Random.Range(1.5f,2.5f);
         }
         else
         {
