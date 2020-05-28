@@ -2399,6 +2399,7 @@ GameObject:
   - component: {fileID: 524620393}
   - component: {fileID: 524620392}
   - component: {fileID: 524620391}
+  - component: {fileID: 524620395}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2487,6 +2488,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &524620395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524620390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2260157ff32f2f84fb73f8a9c67567e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelToMenu: main_menu
+  levelToRetry: cutscene
+  pauseMenuUI: {fileID: 0}
+  disableMouselook: {fileID: 0}
 --- !u!1001 &527875712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2960,7 +2977,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.14 - up to date.
   sections: 01010100
-  customRes: {x: 575, y: 267}
+  customRes: {x: 575, y: 287}
   resolutionFactor: 2
   limitFramerate: 0
   skipFrames: 0
@@ -11311,7 +11328,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7460849969220346965}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
