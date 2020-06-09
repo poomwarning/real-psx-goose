@@ -57,12 +57,13 @@ Material:
     - _EmissionAmt: 0
     - _LODAmt: 0
     - _Metallic: 0
+    - _NormalMapDepth: 1
     - _RenderMode: 0
     - _Smoothness: 0.5
     - _SpecModel: 0
     - _Specular: 0
     - _SrcBlend: 1
-    - _Unlit: 1
+    - _Unlit: 0
     - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:

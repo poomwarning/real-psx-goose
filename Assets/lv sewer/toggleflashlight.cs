@@ -5,6 +5,7 @@ using UnityEngine;
 public class toggleflashlight : MonoBehaviour
 {
     public GameObject flashlight ;
+    public AudioSource tik;
     int setflash = 1;
 
     // Start is called before the first frame update
@@ -21,14 +22,14 @@ public class toggleflashlight : MonoBehaviour
       
         if(Input.GetKeyDown(KeyCode.F)&&setflash==1)
         {
-            
+            tik.Play();
             flashlight.SetActive(true);
             setflash--;
             
         }
          else if(Input.GetKeyDown(KeyCode.F)&&setflash<1)
         {
-            
+            tik.Play();
             flashlight.SetActive(false);
             setflash++;
             

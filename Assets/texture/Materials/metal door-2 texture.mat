@@ -94,8 +94,9 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LODAmt: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
+    - _NormalMapDepth: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RenderMode: 0
@@ -106,7 +107,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Unlit: 1
+    - _Unlit: 0
     - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:

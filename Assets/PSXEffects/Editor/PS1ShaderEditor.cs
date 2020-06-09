@@ -69,6 +69,7 @@ public class PS1ShaderEditor : ShaderGUI {
 	MaterialProperty _VertexInaccuracy = null;
 	MaterialProperty _DiffModel = null;
 	MaterialProperty _NormalMap = null;
+	MaterialProperty _NormalMapDepth = null;
 	MaterialProperty _SpecModel = null;
 	MaterialProperty _SpecularMap = null;
 	MaterialProperty _Specular = null;
@@ -91,6 +92,7 @@ public class PS1ShaderEditor : ShaderGUI {
 		_VertexInaccuracy = FindProperty("_VertexInaccuracy", props);
 		_DiffModel = FindProperty("_DiffModel", props);
 		_NormalMap = FindProperty("_NormalMap", props);
+		_NormalMapDepth = FindProperty("_NormalMapDepth", props);
 		_SpecModel = FindProperty("_SpecModel", props);
 		_SpecularMap = FindProperty("_SpecularMap", props);
 		_Specular = FindProperty("_Specular", props);
@@ -130,7 +132,7 @@ public class PS1ShaderEditor : ShaderGUI {
 		materialEditor.TexturePropertySingleLine(Styles.mainTexText, _MainTex, _Color);
 		if (_NormalMap.textureValue == null)
 			_DiffModel.floatValue = EditorGUILayout.Popup(Styles.diffuseModeText, (int)_DiffModel.floatValue, Styles.diffuseNames);
-		materialEditor.TexturePropertySingleLine(Styles.normalMapText, _NormalMap);
+		materialEditor.TexturePropertySingleLine(Styles.normalMapText, _NormalMap, _NormalMapDepth);
 		materialEditor.TexturePropertySingleLine(Styles.specularMapText, _SpecularMap, _Specular);
 		_SpecModel.floatValue = EditorGUILayout.Popup(Styles.specularModeText, (int)_SpecModel.floatValue, Styles.specularNames);
 		materialEditor.TexturePropertySingleLine(Styles.metalMapText, _MetalMap, _Metallic);
