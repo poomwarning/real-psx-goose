@@ -475,7 +475,6 @@ MonoBehaviour:
   controller: {fileID: 930285231}
   lv_ctrl: {fileID: 452979640}
   speed: 12
-  key: {fileID: 0}
 --- !u!195 &930285233
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -928,10 +927,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 10
-  m_Acceleration: 8
+  m_Speed: 4
+  m_Acceleration: 10
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 500
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1007,7 +1006,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959296795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 79.924065, y: 2.92, z: -70.21734}
+  m_LocalPosition: {x: 79.924065, y: 3.2, z: -70.21734}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 359111662}

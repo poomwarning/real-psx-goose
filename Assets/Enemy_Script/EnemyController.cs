@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
             Destination = traget.position ;
             agent.SetDestination(Destination);
 
-            agent.speed = 18f;
+            agent.speed = 4f;
 
         }
     }
