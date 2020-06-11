@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pipeline2_2
+  m_Name: market_gate_d
   m_Shader: {fileID: 4800000, guid: 94cb0d6305cd4a743b1d2ec684e277de, type: 3}
   m_ShaderKeywords: _DIFFMODEL_VERTEX _DRAWDIST_ON _SPECMODEL_GOURAUD
   m_LightmapFlags: 4
@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: db9dd602630970c4f8078e3e81a55e95, type: 3}
+        m_Texture: {fileID: 2800000, guid: c12774d80dc1bd84e98c0d363f0b337f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -63,7 +63,7 @@ Material:
     - _SpecModel: 0
     - _Specular: 0
     - _SrcBlend: 1
-    - _Unlit: 0
+    - _Unlit: 1
     - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:

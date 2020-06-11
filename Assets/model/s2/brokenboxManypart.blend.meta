@@ -263,7 +263,32 @@ ModelImporter:
     4300000: machinery_dead
     9500000: //RootNode
     13700000: machinery_dead
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pipeline2_2.bmp
+    second: {fileID: 2100000, guid: 0aacf50d33117f0429b24d488d6159ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: machfront.bmp
+    second: {fileID: 2100000, guid: 4b1edd0ff7a37884d94ad760f6e1e711, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: machinerydoor.bmp
+    second: {fileID: 2100000, guid: 9187b211332422d448e52e439b92f746, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: machside.bmp
+    second: {fileID: 2100000, guid: 1cb7491e05b6b1649927bfa6630e0ec7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: misc_rst_pipesm.bmp
+    second: {fileID: 2100000, guid: ba1140e31838e44418d305ffb06493ad, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
