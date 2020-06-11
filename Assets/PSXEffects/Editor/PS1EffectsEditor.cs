@@ -17,6 +17,7 @@ public class PSXEffectsEditor : Editor {
 	SerializedProperty resolutionVert;
 	SerializedProperty resolutionFactor;
 	SerializedProperty limitFramerate;
+	SerializedProperty skipFrames;
 	SerializedProperty affineMapping;
 	SerializedProperty polygonalDrawDistance;
 	SerializedProperty vertexInaccuracy;
@@ -42,6 +43,7 @@ public class PSXEffectsEditor : Editor {
 	void OnEnable() {
 		resolutionFactor = serializedObject.FindProperty("resolutionFactor");
 		limitFramerate = serializedObject.FindProperty("limitFramerate");
+		skipFrames = serializedObject.FindProperty("skipFrames");
 		affineMapping = serializedObject.FindProperty("affineMapping");
 		polygonalDrawDistance = serializedObject.FindProperty("polygonalDrawDistance");
 		vertexInaccuracy = serializedObject.FindProperty("vertexInaccuracy");
@@ -89,7 +91,8 @@ public class PSXEffectsEditor : Editor {
 			} else {
 				resolutionFactor.intValue = EditorGUILayout.IntField("Resolution Factor", resolutionFactor.intValue);
 			}
-			limitFramerate.intValue = EditorGUILayout.IntField("Limit Framerate", limitFramerate.intValue);
+			limitFramerate.intValue = EditorGUILayout.IntField("Target Framerate", limitFramerate.intValue);
+			skipFrames.intValue = EditorGUILayout.IntField("Frame Skip", skipFrames.intValue);
 			snapCamera.boolValue = EditorGUILayout.Toggle("Enable Camera Position Inaccuracy", snapCamera.boolValue);
 			if (snapCamera.boolValue) {
 				camInaccuracy.floatValue = EditorGUILayout.FloatField("Camera Inaccuracy", camInaccuracy.floatValue);

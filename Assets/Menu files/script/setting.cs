@@ -6,11 +6,14 @@ using UnityEngine.Audio;
 public class setting : MonoBehaviour
 {
 
-    public AudioMixer audioMixer;
+    public AudioMixer audioMixer_master;
+  
+  
     public void optionvolume (float volume)
     {
-        audioMixer.SetFloat("mainvolume", volume);
+        audioMixer_master.SetFloat("mainvolume", volume);
     }
+   
 
     public void fullscreen (bool onfullscreen)
     {

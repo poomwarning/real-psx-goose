@@ -29,6 +29,30 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: cfuStatus
+    value: PSXEffects
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sections.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sections.Array.data[0]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sections.Array.data[1]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sections.Array.data[2]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sections.Array.data[3]
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: customRes.x
     value: 407
     objectReference: {fileID: 0}
@@ -43,6 +67,10 @@ Preset:
   - target: {fileID: 0}
     propertyPath: limitFramerate
     value: 60
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: skipFrames
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: affineMapping
@@ -97,10 +125,6 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: skyboxLighting
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: favorRed
     value: 0.75
     objectReference: {fileID: 0}
@@ -135,4 +159,8 @@ Preset:
   - target: {fileID: 0}
     propertyPath: camSnapping
     value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: shadowType
+    value: 0
     objectReference: {fileID: 0}

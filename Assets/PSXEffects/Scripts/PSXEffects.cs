@@ -11,13 +11,14 @@ using UnityEngine.Networking;
 [ExecuteInEditMode]
 public class PSXEffects : MonoBehaviour {
 
-	public System.Version version = new System.Version("1.13");
+	public System.Version version = new System.Version("1.14.1");
 	public string cfuStatus = "PSXEffects";
 	public bool[] sections = { true, true, true, false };
 
 	public Vector2Int customRes = new Vector2Int(620, 480);
 	public int resolutionFactor = 1;
 	public int limitFramerate = -1;
+	public int skipFrames = 0;
 	public bool affineMapping = true;
 	public float polygonalDrawDistance = 0f;
 	public int vertexInaccuracy = 30;
@@ -45,6 +46,7 @@ public class PSXEffects : MonoBehaviour {
 	private Camera cam;
 	private Material colorDepthMat;
 	private RenderTexture rt;
+	private Vector2 prevCustomRes;
 
 	private void Awake() {
 		if (Application.isPlaying) {
@@ -54,12 +56,23 @@ public class PSXEffects : MonoBehaviour {
 		QualitySettings.antiAliasing = 0;
 		cfuStatus = "PSXEffects v" + version.ToString();
 
+		if (!downscale) {
+			customRes = new Vector2Int(Screen.width / resolutionFactor, Screen.height / resolutionFactor);
+		}
+		rt = new RenderTexture(customRes.x, customRes.y, 16, RenderTextureFormat.ARGB32);
+		rt.filterMode = FilterMode.Point;
+
 		CheckForUpdates();
 	}
 
 	private void Update() {
 		if (!downscale) {
 			customRes = new Vector2Int(Screen.width / resolutionFactor, Screen.height / resolutionFactor);
+		}
+
+		if (prevCustomRes != customRes) {
+			rt = new RenderTexture(customRes.x, customRes.y, 16, RenderTextureFormat.ARGB32);
+			rt.filterMode = FilterMode.Point;
 		}
 
 		// Set mesh shader variables
@@ -93,12 +106,9 @@ public class PSXEffects : MonoBehaviour {
 			}
 		}
 
-		// Set target framerate
-		if (limitFramerate > 0) {
-			Application.targetFrameRate = limitFramerate;
-		} else {
-			Application.targetFrameRate = -1;
-		}
+		Application.targetFrameRate = limitFramerate;
+
+		prevCustomRes = customRes;
 	}
 
 	void LateUpdate() {
@@ -142,28 +152,24 @@ public class PSXEffects : MonoBehaviour {
 
 	private void OnRenderImage(RenderTexture src, RenderTexture dst) {
 		if (postProcessing) {
-			if (customRes.x > 0 && customRes.y > 0) {
-				// Renders scene to downscaled render texture using
-				// the post processing shader
+			if (customRes.x > 2 && customRes.y > 2) {
+				// Renders scene to downscaled render texture using the post processing shader
 				if (src != null)
 					src.filterMode = FilterMode.Point;
-				RenderTexture rt = RenderTexture.GetTemporary(customRes.x, customRes.y);
-				rt.filterMode = FilterMode.Point;
-				Graphics.Blit(src, rt);
+				if (skipFrames < 1 || Time.frameCount % skipFrames == 0)
+					Graphics.Blit(src, rt);
 				Graphics.Blit(rt, dst, colorDepthMat);
-				RenderTexture.ReleaseTemporary(rt);
 			} else {
-				Debug.LogError("Downscale resolution width and height must be greater than zero.");
+				customRes.x = 2;
+				customRes.y = 2;
 			}
 		} else {
 			// Renders scene to downscaled render texture
 			if (src != null)
 				src.filterMode = FilterMode.Point;
-			RenderTexture rt = RenderTexture.GetTemporary(customRes.x, customRes.y);
-			rt.filterMode = FilterMode.Point;
-			Graphics.Blit(src, rt);
+			if(skipFrames < 1 || Time.frameCount % skipFrames == 0)
+				Graphics.Blit(src, rt);
 			Graphics.Blit(rt, dst);
-			RenderTexture.ReleaseTemporary(rt);
 		}
 	}
 
