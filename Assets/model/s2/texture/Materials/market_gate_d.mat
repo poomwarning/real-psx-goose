@@ -63,7 +63,7 @@ Material:
     - _SpecModel: 0
     - _Specular: 0
     - _SrcBlend: 1
-    - _Unlit: 1
+    - _Unlit: 0
     - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:
