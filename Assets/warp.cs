@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class warp : MonoBehaviour
 {
+    public GameObject spawnbox;
     public Transform player;
     public Transform waypoint;
     public Animator goairvent;
@@ -12,7 +13,7 @@ public class warp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        spawnbox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,6 +35,7 @@ public class warp : MonoBehaviour
         yield return new WaitForSeconds(9f);
         player.transform.position = waypoint.transform.position;
         disablewalk.GetComponent<FPSMOVEMENT>().enabled = true;
+        spawnbox.SetActive(true);
     }
     
 }
