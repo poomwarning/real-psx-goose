@@ -19,6 +19,14 @@ public class FPSMOVEMENT : MonoBehaviour
     public float jumpHeight = 3f;
 
     public float old_pos;
+    
+    public Vector3 knockbackImpact = Vector3.zero;
+    public float playerMass = 3f;
+
+    public float knockbackSpeed = 4f;
+
+     
+    Vector3 impact = Vector3.zero;
 
 
     Vector3 velocity;
@@ -34,7 +42,7 @@ public class FPSMOVEMENT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
         
        if(isGrounded && velocity.y<0)
@@ -54,10 +62,9 @@ public class FPSMOVEMENT : MonoBehaviour
             speed = 4f;
             GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.1f);
         }
-        
+    
        
         controller.Move(move*speed*Time.deltaTime);
-       
         if(Input.GetButtonDown("Jump")&& isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight*-2f*gravity);
@@ -71,6 +78,9 @@ public class FPSMOVEMENT : MonoBehaviour
 			GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.1f);
 			GetComponent<AudioSource>().Play();
 		}
+
         
     }
+        
+  
 }

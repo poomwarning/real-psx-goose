@@ -9,8 +9,8 @@ public class damage : MonoBehaviour
 
     private Color tempColor;
     
-
-     
+    public GameObject player;
+    
    
     //SerailizeField is used to kept variable's value inside its script
     [SerializeField] public float hitforceup;
@@ -19,19 +19,17 @@ public class damage : MonoBehaviour
     public float hpup;
     
     [SerializeField] bool hphold = false;
-    public Vector3 knockbackImpact = Vector3.zero;
-    public float playerMass = 3f;
-
-    public float knockbackSpeed = 4f;
-
-     
-    Vector3 impact = Vector3.zero;
 
     public CharacterController character;
+
+    
+
+    private knockback knockback;
     
 
       void Start() 
      {
+         knockback = player.GetComponent<knockback>();
         tempColor = image.color;
         tempColor.a = 0f;
         image.color = tempColor;     
@@ -39,12 +37,7 @@ public class damage : MonoBehaviour
     
  
     
-    public void Knockback(Vector3 direction, float force)
-    {
-        direction.Normalize();
-        if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
-        knockbackImpact += direction.normalized * force / playerMass;
-    }
+
     
    
 
@@ -54,14 +47,13 @@ public class damage : MonoBehaviour
              
             if(hit.gameObject.tag == "enemy")
             {
-              
+               knockback.AddImpact(player.transform.position,70f);
                 // GetComponent<Rigidbody>().AddForce(-transform.forward * hitforceback);
-               // GetComponent<Rigidbody>().AddForce(transform.up * hitforceup);
+                // GetComponent<Rigidbody>().AddForce(transform.up * hitforceup);
                 tempColor = image.color;
-                // tempColor.a +=hitdamage/100;
-                 image.color = tempColor;
+                tempColor.a +=hitdamage/100;
+                image.color = tempColor;
                 hpup -= hitdamage;
-                
                 hphold = true;  
                 StartCoroutine(hpdel());
                 return;
@@ -77,8 +69,7 @@ public class damage : MonoBehaviour
         }
 
       void Update() {
-                 character.Move(knockbackImpact * Time.deltaTime);
-               knockbackImpact = Vector3.Lerp(knockbackImpact, Vector3.zero, knockbackSpeed * Time.deltaTime);
+                 
            
             if(hphold == false){
             hpup += hpreg * Time.deltaTime;

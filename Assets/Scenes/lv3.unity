@@ -3519,6 +3519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: g walking
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45969435aae6fee4d816ce2e75029719, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 45969435aae6fee4d816ce2e75029719, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.051
@@ -9682,9 +9686,9 @@ GameObject:
   - component: {fileID: 2865126841994028843}
   - component: {fileID: 2865126841994028841}
   - component: {fileID: 2865126841994028847}
-  - component: {fileID: 2865126841994028848}
   - component: {fileID: 2865126841994028849}
   - component: {fileID: 2865126841994028850}
+  - component: {fileID: 2865126841994028848}
   m_Layer: 10
   m_Name: player
   m_TagString: Player
@@ -9714,6 +9718,9 @@ MonoBehaviour:
     m_Bits: 512
   jumpHeight: 0
   old_pos: 0
+  knockbackImpact: {x: 0, y: 0, z: 0}
+  playerMass: 3
+  knockbackSpeed: 4
 --- !u!23 &2865126841994028844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9874,28 +9881,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!195 &2865126841994028848
-NavMeshAgent:
+--- !u!114 &2865126841994028848
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2865126841994028842}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a1eabd5d509ce4db9da19c24d18063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2865126841994028849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9909,6 +9906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2070004167}
+  player: {fileID: 2865126841994028842}
   hitforceup: 5000
   hitforceback: 10000
   hpmax: 100
@@ -9916,9 +9914,6 @@ MonoBehaviour:
   hpreg: 8
   hpup: 100
   hphold: 1
-  knockbackImpact: {x: 0, y: 0, z: 0}
-  playerMass: 3
-  knockbackSpeed: 4
   character: {fileID: 2865126841994028840}
 --- !u!136 &2865126841994028850
 CapsuleCollider:
@@ -10293,7 +10288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &3375775482334295792
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10407,7 +10402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 573, y: 309}
+  customRes: {x: 569, y: 309}
   resolutionFactor: 2
   limitFramerate: 30
   skipFrames: 0
