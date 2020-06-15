@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class pausemenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
@@ -9,6 +9,8 @@ public class pausemenu : MonoBehaviour
     public string levelToMenu;
 
     public string levelToRetry;
+    
+    
 
 
     public GameObject pauseMenuUI;
@@ -45,6 +47,7 @@ public class pausemenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         disableMouselook.GetComponent<mouselook>().enabled = true;
+        AudioListener.pause =false;
     }
     void Pause()
     {
@@ -54,12 +57,15 @@ public class pausemenu : MonoBehaviour
          Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         disableMouselook.GetComponent<mouselook>().enabled = false;
+        AudioListener.pause =true;
+        
     }
     public void loadMenu()
     {
         GameIsPaused = false;
         Debug.Log("Loading Menu...");
         Application.LoadLevel(levelToMenu);
+        AudioListener.pause =false;
     } public void QuitGame()
     {
         Debug.Log("Quitting game...");
@@ -70,5 +76,6 @@ public class pausemenu : MonoBehaviour
         GameIsPaused = false;
         Time.timeScale = 1f;
         Application.LoadLevel(levelToRetry);
+        AudioListener.pause =false;
     }
 }

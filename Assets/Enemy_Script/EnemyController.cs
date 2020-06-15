@@ -13,12 +13,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     bool isFollowing;
     [SerializeField]
+    public AudioSource chasesound;
 
     
     void Start()
     {       
         agent = GetComponent<NavMeshAgent>();
         Destination = agent.destination;
+         chasesound.Play();
     }
 
     
@@ -29,7 +31,7 @@ public class EnemyController : MonoBehaviour
         {
             Destination = traget.position ;
             agent.SetDestination(Destination);
-
+           
            
 
         }
