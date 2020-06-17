@@ -5,6 +5,8 @@ using UnityEngine;
 public class soundeventlv3cut : MonoBehaviour
 {
     public AudioSource foot;
+    public AudioSource hust;
+    public AudioSource scream;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +21,11 @@ public class soundeventlv3cut : MonoBehaviour
     void footstep()
     {
         foot.Play();
+        hust.Play();
+
+    }
+    void screaming()
+    {
+        scream.Play();
     }
 }

@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/lv3cut.unity
     guid: 8c88409a8a53ec64db6bdb524797b0d3
+  - enabled: 1
+    path: Assets/Scenes/scene4 wai.unity
+    guid: bafb9bf510dc5b64986592bcc998f0f0
   m_configObjects: {}

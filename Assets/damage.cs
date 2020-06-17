@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class damage : MonoBehaviour
 {
-    public  Image image;
+    public  RawImage image;
 
     private Color tempColor;
     

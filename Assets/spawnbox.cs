@@ -6,6 +6,7 @@ public class spawnbox : MonoBehaviour
 {
     public GameObject goose;
     public GameObject siloevent;
+    
     // Start is called before the first frame update
     void Start()
     {
