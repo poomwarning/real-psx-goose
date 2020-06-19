@@ -6,6 +6,7 @@ public class boolitem : MonoBehaviour
 {
     public static bool Pickingcrowbar;
     public Animator crowbar;
+    public AudioSource swing;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,4 +26,9 @@ public class boolitem : MonoBehaviour
             crowbar.SetBool("swing",false);
         }
     }
+    void swingsound()
+    {
+        swing.Play();
+    }
+    
 }

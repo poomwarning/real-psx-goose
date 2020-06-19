@@ -11,10 +11,15 @@ public class damage : MonoBehaviour
     
     public GameObject player;
     
+    public AudioSource hurts;
+    private Vector3 explosionOrigin;
+
+   
+    
    
     //SerailizeField is used to kept variable's value inside its script
-    [SerializeField] public float hitforceup;
-    [SerializeField] public float hitforceback;
+    //[SerializeField] public float hitforceup;
+    //[SerializeField] public float hitforceback;
     public float hpmax,hitdamage,hpreg;
     public float hpup;
     
@@ -22,13 +27,21 @@ public class damage : MonoBehaviour
 
     public CharacterController character;
 
+    private pausemenu oofmenu;
+    public GameObject canvas;
+
     
 
     private knockback knockback;
+     private void Awake() 
+     {
+         oofmenu = canvas.GetComponent<pausemenu>();
+    }
     
 
       void Start() 
      {
+       
          knockback = player.GetComponent<knockback>();
         tempColor = image.color;
         tempColor.a = 0f;
@@ -48,6 +61,7 @@ public class damage : MonoBehaviour
             if(hit.gameObject.tag == "enemy")
             {
                knockback.AddImpact(player.transform.position,70f);
+               hurts.Play();
                 // GetComponent<Rigidbody>().AddForce(-transform.forward * hitforceback);
                 // GetComponent<Rigidbody>().AddForce(transform.up * hitforceup);
                 tempColor = image.color;
@@ -84,8 +98,9 @@ public class damage : MonoBehaviour
                  image.color = tempColor;
                 hpup = hpmax;
             }
-            if(hpup <= 0){
-               // Destroy(gameObject);
+            if(hpup <= 0)
+            {
+               pausemenu.GameIsOVER = true;
             }
         }
         

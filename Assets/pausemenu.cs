@@ -6,16 +6,24 @@ public class pausemenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
+    public GameObject GameoverUI ;
+    public  static bool GameIsOVER ;
+    
+
     public string levelToMenu;
 
     public string levelToRetry;
-    
-    
+
 
 
     public GameObject pauseMenuUI;
      public GameObject disableMouselook;
     // Start is called before the first frame update
+    private void Awake() 
+    {
+        GameIsOVER = false;
+    }
+
     void Start()
     {
         
@@ -24,6 +32,16 @@ public class pausemenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if(GameIsOVER==true)
+        {
+            OVERING();
+        }
+        else
+        {
+            Resume();  
+        }
+
         if(Input.GetKeyDown(KeyCode.Escape))
         {
            
@@ -36,14 +54,19 @@ public class pausemenu : MonoBehaviour
             {
                  Pause();
             }
+           
          
         }
+   
+       
     }
     public void Resume()
     {
+       
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         disableMouselook.GetComponent<mouselook>().enabled = true;
@@ -62,8 +85,10 @@ public class pausemenu : MonoBehaviour
     }
     public void loadMenu()
     {
+        
         GameIsPaused = false;
-        Debug.Log("Loading Menu...");
+        GameIsOVER = false;
+        Time.timeScale = 1f;
         Application.LoadLevel(levelToMenu);
         AudioListener.pause =false;
     } public void QuitGame()
@@ -73,9 +98,22 @@ public class pausemenu : MonoBehaviour
     }
     public void Retry()
     {
+    
         GameIsPaused = false;
+        GameIsOVER = false;
         Time.timeScale = 1f;
-        Application.LoadLevel(levelToRetry);
         AudioListener.pause =false;
+         Application.LoadLevel(levelToRetry);
     }
+    void OVERING()
+    {
+      GameoverUI.SetActive(true);
+      Time.timeScale = 0f;
+      Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        disableMouselook.GetComponent<mouselook>().enabled = false;
+
+    }
+   
+    
 }
