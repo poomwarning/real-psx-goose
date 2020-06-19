@@ -22,6 +22,7 @@ public class pausemenu : MonoBehaviour
     private void Awake() 
     {
         GameIsOVER = false;
+        Time.timeScale = 1;
     }
 
     void Start()
@@ -37,10 +38,7 @@ public class pausemenu : MonoBehaviour
         {
             OVERING();
         }
-        else
-        {
-            Resume();  
-        }
+       
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {

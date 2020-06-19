@@ -5,6 +5,8 @@ using UnityEngine;
 public class crowbarpick : MonoBehaviour
 {
     public GameObject crowbar;
+    public GameObject woodtext;
+    public GameObject crowbartext;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +22,7 @@ public class crowbarpick : MonoBehaviour
      {
         crowbar.SetActive(true);
         Destroy(gameObject);
+        Destroy(woodtext);
+        Destroy(crowbartext);
     }
 }

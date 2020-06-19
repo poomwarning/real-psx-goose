@@ -8,6 +8,7 @@ public class button : MonoBehaviour
     public GameObject greenlight;
     public Animator doorsilo;
     public GameObject openareaL;
+    public GameObject spawner;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class button : MonoBehaviour
                 greenlight.SetActive(true);
                 doorsilo.SetBool("doorsilo",true);
                 openareaL.SetActive(true);
+                spawner.SetActive(true);
             }
         }    
     }
