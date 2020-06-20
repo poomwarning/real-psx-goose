@@ -12,7 +12,7 @@ public class subtitle : MonoBehaviour
     {
         UIObject.SetActive(false);
     }
-     void OnTriggerEnter(Collider other) 
+     void OnTriggerStay(Collider other) 
      {
        if(other.tag=="PlayerL")
        {

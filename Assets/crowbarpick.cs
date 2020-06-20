@@ -20,9 +20,13 @@ public class crowbarpick : MonoBehaviour
     }
      private void OnTriggerStay(Collider other) 
      {
-        crowbar.SetActive(true);
-        Destroy(gameObject);
-        Destroy(woodtext);
-        Destroy(crowbartext);
+        if(other.gameObject.tag=="PlayerL")
+        {
+            crowbar.SetActive(true);
+            Destroy(gameObject);
+            Destroy(woodtext);
+            Destroy(crowbartext);
+        }
+        
     }
 }
