@@ -33,7 +33,6 @@ public class pickingcard : MonoBehaviour
             Destroy(doortext);
             Destroy(roomtext);
             Destroy(gameObject);
-           
         }    
     }
 }

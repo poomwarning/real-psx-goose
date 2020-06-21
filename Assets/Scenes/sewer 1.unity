@@ -1513,7 +1513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &795036849
 Transform:
   m_ObjectHideFlags: 0
@@ -2341,6 +2341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2260157ff32f2f84fb73f8a9c67567e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameoverUI: {fileID: 0}
   levelToMenu: main_menu
   levelToRetry: sewer 1
   pauseMenuUI: {fileID: 1108953033025772086}
@@ -4353,6 +4354,9 @@ MonoBehaviour:
     m_Bits: 512
   jumpHeight: 0
   old_pos: 0
+  knockbackImpact: {x: 0, y: 0, z: 0}
+  playerMass: 3
+  knockbackSpeed: 4
 --- !u!1 &3827026736198757331
 GameObject:
   m_ObjectHideFlags: 0
@@ -5085,7 +5089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 606, y: 318}
+  customRes: {x: 622, y: 307}
   resolutionFactor: 2
   limitFramerate: 30
   skipFrames: 0

@@ -12,7 +12,7 @@ public class toggleflashlight : MonoBehaviour
     void Start()
     {
         
-        flashlight.SetActive(false);
+        
     }
 
     // Update is called once per frame
