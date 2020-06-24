@@ -5,6 +5,7 @@ using UnityEngine;
 public class gooseLv4spawn : MonoBehaviour
 {
     public GameObject goose;
+    public AudioSource Bgsong;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public class gooseLv4spawn : MonoBehaviour
      {
          if(other.gameObject.tag=="Player")
          {
+            Bgsong.Stop();
             goose.SetActive(true);
             Destroy(gameObject);
          }

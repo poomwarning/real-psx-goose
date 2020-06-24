@@ -255,9 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - up to date.
+  cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 575, y: 268}
+  customRes: {x: 750, y: 157}
   resolutionFactor: 2
   limitFramerate: 30
   skipFrames: 0
@@ -2154,9 +2154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - up to date.
+  cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 575, y: 268}
+  customRes: {x: 750, y: 157}
   resolutionFactor: 2
   limitFramerate: 30
   skipFrames: 0
@@ -2298,9 +2298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - up to date.
+  cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 575, y: 268}
+  customRes: {x: 750, y: 157}
   resolutionFactor: 2
   limitFramerate: 30
   skipFrames: 0
@@ -2411,7 +2411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - up to date.
+  cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
   customRes: {x: 732, y: 174}
   resolutionFactor: 2

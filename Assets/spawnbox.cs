@@ -6,6 +6,7 @@ public class spawnbox : MonoBehaviour
 {
     public GameObject goose;
     public GameObject siloevent;
+    public AudioSource bgsound ;
     
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class spawnbox : MonoBehaviour
          {
              goose.SetActive(true);
              siloevent.SetActive(true);
+             bgsound.Stop();
              Destroy(gameObject);
          }
     }

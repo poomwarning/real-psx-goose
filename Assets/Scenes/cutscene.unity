@@ -2500,6 +2500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2260157ff32f2f84fb73f8a9c67567e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameoverUI: {fileID: 0}
   levelToMenu: main_menu
   levelToRetry: cutscene
   pauseMenuUI: {fileID: 0}
@@ -2977,7 +2978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010100
-  customRes: {x: 606, y: 318}
+  customRes: {x: 622, y: 297}
   resolutionFactor: 2
   limitFramerate: 0
   skipFrames: 0
@@ -3305,11 +3306,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 557ef2d5734f15c4d90fddad758e9628,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 59a94279628f34246812f9d490a6ef67, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e49b5498491e1754fb53e2db9772563c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

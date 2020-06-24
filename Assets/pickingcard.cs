@@ -6,7 +6,7 @@ public class pickingcard : MonoBehaviour
 {
     public GameObject goose;
     public GameObject lv4cut;
-
+    public AudioSource BGsong;
     public GameObject doortext;
     public GameObject roomtext;
     public GameObject stair;
@@ -26,6 +26,7 @@ public class pickingcard : MonoBehaviour
     {
         if(other.gameObject.tag=="PlayerL")
         {
+            BGsong.Stop();
             goose.SetActive(true);
             lv4cut.SetActive(true);
             stair.SetActive(false);
