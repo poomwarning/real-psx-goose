@@ -6,6 +6,8 @@ public class FPSMOVEMENT : MonoBehaviour
 {
     public CharacterController controller;
 
+    CharacterController cc;
+
     public float speed = 12f;
 
     
@@ -16,6 +18,16 @@ public class FPSMOVEMENT : MonoBehaviour
 
     public float jumpHeight = 3f;
 
+    public float old_pos;
+    
+    public Vector3 knockbackImpact = Vector3.zero;
+    public float playerMass = 3f;
+
+    public float knockbackSpeed = 4f;
+
+     
+    Vector3 impact = Vector3.zero;
+
 
     Vector3 velocity;
     bool isGrounded;
@@ -23,13 +35,14 @@ public class FPSMOVEMENT : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+         old_pos = transform.position.x;
+        cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
         
        if(isGrounded && velocity.y<0)
@@ -39,23 +52,35 @@ public class FPSMOVEMENT : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right*x+transform.forward*z;
-         if(Input.GetButton("sprint"))
+         if(Input.GetButton("sprint") && (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.D)))
         {
             speed = 6f;
+            GetComponent<AudioSource>().pitch = Random.Range(1.5f,2.5f);
         }
         else
         {
             speed = 4f;
+            GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.1f);
         }
-        
+    
        
         controller.Move(move*speed*Time.deltaTime);
-       
         if(Input.GetButtonDown("Jump")&& isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight*-2f*gravity);
         }
         velocity.y += gravity*Time.deltaTime;
         controller.Move(velocity*Time.deltaTime);
+
+        if(cc.isGrounded == true  && GetComponent<AudioSource>().isPlaying == false && (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.D)))
+		{
+			GetComponent<AudioSource>().volume = Random.Range(0.8f, 1);
+			GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.1f);
+			GetComponent<AudioSource>().Play();
+		}
+
+        
     }
+        
+  
 }

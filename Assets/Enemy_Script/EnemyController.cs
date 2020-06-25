@@ -13,12 +13,21 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     bool isFollowing;
     [SerializeField]
+<<<<<<< HEAD
     private Level_Ctrl L_Ctrl;
+=======
+    public AudioSource chasesound;
+
+>>>>>>> woody-prerelease
     
     void Start()
     {       
         agent = GetComponent<NavMeshAgent>();
         Destination = agent.destination;
+<<<<<<< HEAD
+=======
+         chasesound.Play();
+>>>>>>> woody-prerelease
     }
 
     
@@ -29,8 +38,13 @@ public class EnemyController : MonoBehaviour
         {
             Destination = traget.position ;
             agent.SetDestination(Destination);
+<<<<<<< HEAD
 
             agent.speed = 4f;
+=======
+           
+           
+>>>>>>> woody-prerelease
 
         }
     }
@@ -42,6 +56,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
+<<<<<<< HEAD
     void OnCollisionEnter(Collision other) 
     {
         if(other.gameObject.tag == ("Player"))
@@ -50,4 +65,7 @@ public class EnemyController : MonoBehaviour
 
         }
     }
+=======
+    
+>>>>>>> woody-prerelease
 }

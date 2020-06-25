@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class mainmenu : MonoBehaviour
 {
+    IEnumerator playdelay()
+    {
+        yield return new WaitForSeconds(5f);
+    }
+
     public void play ()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

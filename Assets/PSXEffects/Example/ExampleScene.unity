@@ -3260,9 +3260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - version ahead?!
+  cfuStatus: PSXEffects v1.14 - up to date.
   sections: 01010100
-  customRes: {x: 320, y: 240}
+  customRes: {x: 345, y: 259}
   resolutionFactor: 2
   limitFramerate: 60
   skipFrames: 0

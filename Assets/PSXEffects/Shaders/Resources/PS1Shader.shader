@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "PSXEffects/PS1Shader"
 {
 	Properties
@@ -13,6 +11,7 @@ Shader "PSXEffects/PS1Shader"
 		_LODTex("LOD Texture", 2D) = "white" {}
 		_LODAmt("LOD Amount", Float) = 0.0
 		_NormalMap("Normal Map", 2D) = "bump" {}
+		_NormalMapDepth("Normal Map Depth", Float) = 1
 		[KeywordEnum(Gouraud, Phong)] _SpecModel("Specular Model", Float) = 0.0
 		_SpecularMap("Specular Map", 2D) = "white" {}
 		_Specular("Specular Amount", Float) = 0.0
@@ -51,6 +50,7 @@ Shader "PSXEffects/PS1Shader"
 
 				#include "UnityCG.cginc"
 				#include "UnityLightingCommon.cginc"
+				#include "UnityStandardUtils.cginc"
 				#include "AutoLight.cginc"
 				#include "PSXEffects.cginc"
 
@@ -96,6 +96,7 @@ Shader "PSXEffects/PS1Shader"
 				v2f vert(appdata v)
 				{
 					v2f o;
+					UNITY_INITIALIZE_OUTPUT(v2f, o);
 
 					// Vertex inaccuracy block
 					float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
@@ -191,16 +192,14 @@ Shader "PSXEffects/PS1Shader"
 
 					o.lightDir = lightDir;
 
-					// Outputs needed for calculating world normal in fragment
-					worldNormal = mul((float3x3)unity_ObjectToWorld, v.normal);
-					float3 worldTangent = mul((float3x3)unity_ObjectToWorld, v.normal);
+					// Outputs needed for calculating normal in fragment
 
-					float3 binormal = cross(v.normal, v.tangent.xyz);
-					float3 worldBinormal = mul((float3x3)unity_ObjectToWorld, -binormal);
-
-					o.N = normalize(worldNormal);
-					o.T = normalize(worldTangent);
-					o.B = normalize(worldBinormal);
+					// World normal
+					o.N = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
+					// World tangent
+					o.T = normalize(mul(unity_ObjectToWorld, v.tangent).xyz);
+					// World binormal
+					o.B = normalize(cross(o.N, o.T));
 
 					UNITY_TRANSFER_FOG(o, o.pos);
 					TRANSFER_VERTEX_TO_FRAGMENT(o);
@@ -225,12 +224,10 @@ Shader "PSXEffects/PS1Shader"
 					#endif
 
 					if (!_Unlit) {
-						// Normals
-						float3 tangentNormal = tex2D(_NormalMap, adjUv).xyz;
-						tangentNormal = normalize(tangentNormal * 2 - 1);
-						float3x3 TBN = float3x3(normalize(i.T), normalize(i.B) * 8, normalize(i.N));
-						TBN = transpose(TBN);
-						float3 worldNormal = mul(TBN, tangentNormal);
+						// Normal mapping
+						float3 unpacked = UnpackScaleNormal(tex2D(_NormalMap, adjUv), _NormalMapDepth);
+						float3x3 TBN = float3x3(i.T, i.B, i.N);
+						float3 normalDir = normalize(mul(unpacked, TBN));
 
 						// Calculate metal/smoothness map
 						float3 reflectedDir = reflect(i.viewDir, normalize(i.normalDir));
@@ -252,13 +249,12 @@ Shader "PSXEffects/PS1Shader"
 						float4 diffuse = float4(1, 1, 1, albedo.a);
 						#if !defined(LIGHTMAP_ON)
 						if (_DiffModel == 1) {
-							float nl = (max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz)));
-							diffuse.rgb = nl * _LightColor0;
+							diffuse.rgb = _LightColor0.rgb * saturate(dot(normalDir, normalize(_WorldSpaceLightPos0.xyz)));
 							#if UNITY_COLORSPACE_GAMMA
-								diffuse.rgb += ShadeSH9(half4(worldNormal, 1));
+								diffuse.rgb += ShadeSH9(half4(normalDir, 1));
 								diffuse.rgb += i.diff.rgb;
 							#else
-								diffuse.rgb += LinearToGammaSpace(ShadeSH9(half4(worldNormal, 1)));
+								diffuse.rgb += LinearToGammaSpace(ShadeSH9(half4(normalDir, 1)));
 								diffuse.rgb += LinearToGammaSpace(i.diff.rgb);
 							#endif
 						} else {
@@ -284,7 +280,7 @@ Shader "PSXEffects/PS1Shader"
 								lightDir = normalize(vertToLight);
 							}
 
-							float3 reflection = reflect(lightDir, worldNormal);
+							float3 reflection = reflect(lightDir, normalDir);
 							float3 viewDir = normalize(i.viewDir);
 							specular = pow(saturate(dot(reflection, -viewDir)), 20.0f);
 						}
@@ -384,6 +380,7 @@ Shader "PSXEffects/PS1Shader"
 				v2f vert(appdata v)
 				{
 					v2f o;
+					UNITY_INITIALIZE_OUTPUT(v2f, o);
 
 					// Vertex inaccuracy block
 					float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
@@ -449,6 +446,7 @@ Shader "PSXEffects/PS1Shader"
 				#pragma multi_compile_fog
 
 				#include "UnityCG.cginc"
+				#include "UnityStandardUtils.cginc"
 				#include "AutoLight.cginc"
 				#include "PSXEffects.cginc"
 
@@ -456,16 +454,20 @@ Shader "PSXEffects/PS1Shader"
 				{
 					float4 pos : SV_POSITION;
 					float4 uv : TEXCOORD0;
-					float3 lightDir : TEXCOORD1;
+					float4 worldPos : TEXCOORD1;
+					LIGHTING_COORDS(2, 3)
 					float3 normal : TEXCOORD4;
 					fixed4 diff : COLOR;
-					LIGHTING_COORDS(2,3)
+					float3 T : TEXCOORD5;
+					float3 B : TEXCOORD6;
+					float3 N : TEXCOORD7;
 					UNITY_FOG_COORDS(10)
 					float4 uv1 : TEXCOORD11;
 				};
 
 				v2f vert(appdata_tan v) {
 					v2f o;
+					UNITY_INITIALIZE_OUTPUT(v2f, o);
 
 					float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 					float3 viewDir = mul((float3x3)unity_CameraToWorld, float3(0, 0, 1));
@@ -486,6 +488,7 @@ Shader "PSXEffects/PS1Shader"
 						worldPos = mul(unity_ObjectToWorld, v.vertex);
 						o.pos = PixelSnap(o.pos);
 					}
+					o.worldPos = worldPos;
 
 					o.diff.a = (distance(worldPos, _WorldSpaceCameraPos) > _DrawDistance && _DrawDistance > 0);
 
@@ -503,16 +506,21 @@ Shader "PSXEffects/PS1Shader"
 					else
 						o.uv1 = float4(v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw, 0, 0);
 					#endif
-
 					o.uv.a = (distance(worldPos, _WorldSpaceCameraPos) > _LODAmt && _LODAmt > 0);
-
 					#ifdef LIGHTMAP_ON
 					o.uv1 = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
 					#endif
 
-					o.lightDir = ObjSpaceLightDir(v.vertex);
-
 					o.normal = v.normal;
+
+					// Outputs needed for calculating normal in fragment
+
+					// World normal
+					o.N = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
+					// World tangent
+					o.T = normalize(mul(unity_ObjectToWorld, v.tangent).xyz);
+					// World binormal
+					o.B = normalize(cross(o.N, o.T));
 
 					UNITY_TRANSFER_FOG(o, o.pos);
 					TRANSFER_VERTEX_TO_FRAGMENT(o);
@@ -539,22 +547,33 @@ Shader "PSXEffects/PS1Shader"
 						albedo.rgb = LinearToGammaSpace(albedo.rgb);
 					#endif
 
-					i.lightDir = normalize(i.lightDir);
+					float3 lightDir;
+					float atten = LIGHT_ATTENUATION(i);
 
-					fixed atten = LIGHT_ATTENUATION(i);
 					if (0.0 == _WorldSpaceLightPos0.w) {
 						atten = 1.0;
-						i.lightDir = normalize(_WorldSpaceLightPos0.xyz);
+						lightDir = normalize(_WorldSpaceLightPos0.xyz);
+					} else {
+						float3 fragToLight = _WorldSpaceLightPos0.xyz - i.worldPos.xyz;
+						float distance = length(fragToLight);
+						//atten = 1 / distance;
+						lightDir = normalize(fragToLight);
 					}
+
+					// Normal mapping
+					float3 unpacked = UnpackScaleNormal(tex2D(_NormalMap, adjUv), _NormalMapDepth);
+					float3x3 TBN = float3x3(i.T, i.B, i.N);
+					float3 normalDir = normalize(mul(unpacked, TBN));
 
 					albedo *= _Color;
 
-					fixed4 col;
-					fixed diff = saturate(dot(normalize(i.normal), i.lightDir));
+					float4 col;
+					float diff = saturate(dot(normalDir, lightDir));
+					
 					#if !UNITY_COLORSPACE_GAMMA
 						col.rgb = LinearToGammaSpace((albedo.rgb * _LightColor0.rgb * diff) * (atten * 2) / unity_ColorSpaceDouble);
 					#else
-						col.rgb = (albedo.rgb * _LightColor0.rgb * diff) * (atten * 2);
+						col.rgb = albedo.rgb * _LightColor0.rgb * diff * atten;
 					#endif
 
 					#ifdef LIGHTMAP_ON

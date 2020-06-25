@@ -145,10 +145,10 @@ RectTransform:
   m_Father: {fileID: 824532260}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1.25}
-  m_SizeDelta: {x: 1146, y: 633.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -1.0714, y: -1.25}
+  m_SizeDelta: {x: 2.1428223, y: 97.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!111 &435821477
 Animation:
@@ -893,10 +893,10 @@ RectTransform:
   m_Father: {fileID: 824532260}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.25, y: -1.25}
-  m_SizeDelta: {x: 1146.5, y: 633.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -1.25}
+  m_SizeDelta: {x: 0, y: 97.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1479211721
 MonoBehaviour:
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.14 - up to date.
+  cfuStatus: PSXEffects v1.14.1 - up to date.
   sections: 01010101
   customRes: {x: 563, y: 315}
   resolutionFactor: 2
@@ -1433,7 +1433,7 @@ GameObject:
   - component: {fileID: 6250299986180963558}
   - component: {fileID: 1560697348}
   m_Layer: 0
-  m_Name: hatch_01
+  m_Name: hatch_012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

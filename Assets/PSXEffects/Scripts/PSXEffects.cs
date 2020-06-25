@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 [ExecuteInEditMode]
 public class PSXEffects : MonoBehaviour {
 
-	public System.Version version = new System.Version("1.14");
+	public System.Version version = new System.Version("1.14.1");
 	public string cfuStatus = "PSXEffects";
 	public bool[] sections = { true, true, true, false };
 
@@ -152,7 +152,7 @@ public class PSXEffects : MonoBehaviour {
 
 	private void OnRenderImage(RenderTexture src, RenderTexture dst) {
 		if (postProcessing) {
-			if (customRes.x > 0 && customRes.y > 0) {
+			if (customRes.x > 2 && customRes.y > 2) {
 				// Renders scene to downscaled render texture using the post processing shader
 				if (src != null)
 					src.filterMode = FilterMode.Point;
@@ -160,7 +160,8 @@ public class PSXEffects : MonoBehaviour {
 					Graphics.Blit(src, rt);
 				Graphics.Blit(rt, dst, colorDepthMat);
 			} else {
-				Debug.LogError("Downscale resolution width and height must be greater than zero.");
+				customRes.x = 2;
+				customRes.y = 2;
 			}
 		} else {
 			// Renders scene to downscaled render texture
